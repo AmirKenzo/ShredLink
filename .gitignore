@@ -1,0 +1,13 @@
+# Environment and secrets
+.env
+*.db
+data/
+
+# Rust
+target/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ShredLink</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'DM Sans', system-ui, sans-serif; }
+    body.lang-fa { font-family: 'Vazirmatn', 'DM Sans', system-ui, sans-serif; }
+    .lang-switcher .lang-btn.font-medium { background: white; box-shadow: 0 1px 2px rgba(0,0,0,.06); color: var(--tw-slate-800, #1e293b); }
+    .dark .lang-switcher .lang-btn.font-medium { background: #334155; box-shadow: 0 1px 2px rgba(0,0,0,.2); color: #e2e8f0; }
+    .lang-switcher .lang-btn:not(.font-medium) { background: transparent; }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 min-h-screen text-slate-800 dark:text-slate-200 antialiased transition-colors">
+  <div class="max-w-xl mx-auto px-4 py-12">
+    <header class="text-center mb-10 relative">
+      <div class="absolute top-0 right-0 flex items-center gap-2">
+        <button type="button" id="dark-toggle" class="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors" title="Dark mode" aria-label="Toggle dark mode">
+          <svg id="icon-sun" class="w-5 h-5 hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" /></svg>
+          <svg id="icon-moon" class="w-5 h-5 block dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" /></svg>
+        </button>
+        <div class="lang-switcher inline-flex rounded-xl border border-slate-200 dark:border-slate-600 overflow-hidden bg-slate-100/80 dark:bg-slate-700/50">
+          <button type="button" id="lang-en" class="lang-btn min-h-[44px] min-w-[52px] px-4 py-2.5 text-sm transition-colors text-slate-500 dark:text-slate-400 hover:bg-slate-200/70 dark:hover:bg-slate-600/50 font-medium">EN</button>
+          <button type="button" id="lang-fa" class="lang-btn min-h-[44px] min-w-[52px] px-4 py-2.5 text-sm transition-colors text-slate-500 dark:text-slate-400 hover:bg-slate-200/70 dark:hover:bg-slate-600/50">فا</button>
+        </div>
+      </div>
+      <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight" data-i18n="title">ShredLink</h1>
+      <p class="text-slate-600 dark:text-slate-400 mt-1" data-i18n="tagline">Share sensitive text via a secure, short-lived link</p>
+    </header>
+
+    <main class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700 p-6 sm:p-8 transition-colors">
+      <div id="create-section">
+        <form id="create-form" class="space-y-5">
+          <div>
+            <label for="text" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" data-i18n="contentLabel">Content</label>
+            <textarea
+              id="text"
+              name="text"
+              rows="6"
+              required
+              data-i18n-placeholder="contentPlaceholder"
+              class="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-y min-h-[140px]"
+            ></textarea>
+            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400" data-i18n="contentHint">Optional: protect with a password. Leave empty for a public link.</p>
+          </div>
+
+          <div>
+            <label for="password" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" data-i18n="passwordLabel">Password (optional)</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="••••••••"
+              autocomplete="off"
+              class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
+
+          <div>
+            <label for="expire" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5" data-i18n="expireLabel">Expire after</label>
+            <select
+              id="expire"
+              name="expire"
+              class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            >
+              <option value="10" data-i18n="expire10m">10 minutes</option>
+              <option value="30" data-i18n="expire30m">30 minutes</option>
+              <option value="60" data-i18n="expire1h">1 hour</option>
+              <option value="120" data-i18n="expire2h">2 hours</option>
+              <option value="180" data-i18n="expire3h">3 hours</option>
+              <option value="1440" data-i18n="expire1d">1 day</option>
+            </select>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-4">
+            <label class="inline-flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="one_time_view" name="one_time_view" class="rounded border-slate-300 dark:border-slate-600 text-indigo-600 focus:ring-indigo-500 bg-white dark:bg-slate-700" />
+              <span class="text-sm text-slate-700 dark:text-slate-300" data-i18n="oneTimeView">One-time view (link invalid after first open)</span>
+            </label>
+            <label class="inline-flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" id="one_time_password" name="one_time_password" class="rounded border-slate-300 dark:border-slate-600 text-indigo-600 focus:ring-indigo-500 bg-white dark:bg-slate-700" />
+              <span class="text-sm text-slate-700 dark:text-slate-300" data-i18n="oneTimePassword">One-time password (expires after correct password once)</span>
+            </label>
+          </div>
+
+          <div id="form-error" class="hidden text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800 rounded-xl px-4 py-2"></div>
+          <div id="form-success" class="hidden text-sm text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800 rounded-xl px-4 py-2"></div>
+
+          <button
+            type="submit"
+            id="submit-btn"
+            class="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            data-i18n="createBtn"
+          >
+            Create link
+          </button>
+        </form>
+      </div>
+
+      <div id="result-section" class="hidden">
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-2" data-i18n="yourLink">Your secure link:</p>
+        <div class="flex flex-col sm:flex-row gap-2">
+          <input
+            type="text"
+            id="result-url"
+            readonly
+            class="flex-1 px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-200 text-sm font-mono"
+          />
+          <button
+            type="button"
+            id="copy-btn"
+            class="px-4 py-2.5 bg-slate-800 dark:bg-slate-600 hover:bg-slate-700 dark:hover:bg-slate-500 text-white rounded-xl font-medium text-sm whitespace-nowrap transition-colors"
+            data-i18n="copy"
+          >
+            Copy
+          </button>
+        </div>
+        <button
+          type="button"
+          id="new-link-btn"
+          class="mt-4 text-sm text-indigo-600 dark:text-indigo-400 hover:underline"
+          data-i18n="createAnother"
+        >
+          Create another link
+        </button>
+      </div>
+    </main>
+
+    <footer class="mt-10 text-center text-sm text-slate-500 dark:text-slate-400" data-i18n="footer">
+      Content is encrypted and can be set to expire or become invalid after one view.
+    </footer>
+  </div>
+
+  <script src="i18n.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
